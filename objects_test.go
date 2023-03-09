@@ -642,6 +642,50 @@ var _ = Describe("Objects", func() {
 			})
 		})
 
+		Context("RecordSRV object", func() {
+			name := "srv.sample.com"
+			dnsView := "default"
+			priority := uint32(10)
+			weight := uint32(24)
+			port := uint32(88)
+			target := "h1.sample.com"
+			ttl := uint32(300)
+			useTtl := true
+			comment := "test comment"
+			eas := EA{"Country": "test"}
+
+			rv := NewRecordSRV(RecordSRV{
+				View:     dnsView,
+				Name:     name,
+				Priority: priority,
+				Weight:   weight,
+				Port:     port,
+				Target:   target,
+				Ttl:      ttl,
+				UseTtl:   useTtl,
+				Comment:  comment,
+				Ea:       eas,
+			})
+
+			It("should set field correctly", func() {
+				Expect(rv.View).To(Equal(dnsView))
+				Expect(rv.Name).To(Equal(name))
+				Expect(rv.Priority).To(Equal(priority))
+				Expect(rv.Weight).To(Equal(weight))
+				Expect(rv.Port).To(Equal(port))
+				Expect(rv.Target).To(Equal(target))
+				Expect(rv.Ttl).To(Equal(ttl))
+				Expect(rv.UseTtl).To(Equal(useTtl))
+				Expect(rv.Comment).To(Equal(comment))
+				Expect(rv.Ea).To(Equal(eas))
+			})
+			It("should set base fields correctly", func() {
+				Expect(rv.ObjectType()).To(Equal("record:srv"))
+				Expect(rv.ReturnFields()).To(ConsistOf("name", "view", "priority", "weight", "port", "target", "ttl", "use_ttl", "comment", "extattrs"))
+			})
+
+		})
+
 		Context("RecordTXT object", func() {
 			view := "default"
 			name := "txt.domain.com"
