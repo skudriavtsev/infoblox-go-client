@@ -2,6 +2,7 @@ package ibclient
 
 import (
 	"encoding/json"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -600,6 +601,44 @@ var _ = Describe("Objects", func() {
 				Expect(rh.ObjectType()).To(Equal("record:host"))
 				Expect(rh.ReturnFields()).To(ConsistOf("extattrs", "ipv4addrs", "ipv6addrs", "name", "view", "zone",
 					"comment", "network_view", "aliases", "use_ttl", "ttl", "configure_for_dns"))
+			})
+		})
+
+		Context("RecordMX object", func() {
+			fqdn := "test.example.com"
+			mx := "example.com"
+			dnsView := "default"
+			priority := uint32(10)
+			ttl := uint32(70)
+			useTtl := true
+			comment := "test comment"
+			eas := EA{"Country": "test"}
+
+			rm := NewRecordMX(RecordMX{
+				Fqdn:     fqdn,
+				MX:       mx,
+				View:     dnsView,
+				Priority: priority,
+				Ttl:      ttl,
+				UseTtl:   useTtl,
+				Comment:  comment,
+				Ea:       eas,
+			})
+
+			It("should set fields correctly", func() {
+				Expect(rm.Fqdn).To(Equal(fqdn))
+				Expect(rm.MX).To(Equal(mx))
+				Expect(rm.View).To(Equal(dnsView))
+				Expect(rm.Priority).To(Equal(priority))
+				Expect(rm.Ttl).To(Equal(ttl))
+				Expect(rm.UseTtl).To(Equal(useTtl))
+				Expect(rm.Comment).To(Equal(comment))
+				Expect(rm.Ea).To(Equal(eas))
+			})
+
+			It("should set base fields correctly", func() {
+				Expect(rm.ObjectType()).To(Equal("record:mx"))
+				Expect(rm.ReturnFields()).To(ConsistOf("mail_exchanger", "view", "name", "preference", "ttl", "use_ttl", "comment", "extattrs"))
 			})
 		})
 
