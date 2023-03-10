@@ -84,10 +84,10 @@ func (objMgr *ObjectManager) UpdateMXRecord(
 	dnsView string,
 	fqdn string,
 	mx string,
+	preference uint32,
 	ttl uint32,
 	useTtl bool,
 	comment string,
-	preference uint32,
 	eas EA) (*RecordMX, error) {
 
 	res, err := objMgr.GetMXRecordByRef(ref)

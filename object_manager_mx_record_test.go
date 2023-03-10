@@ -149,7 +149,7 @@ var _ = Describe("Object Manager: MX-record", func() {
 		}
 		objMgr = NewObjectManager(conn, cmpType, tenantID)
 		It("should pass updated MX record arguments", func() {
-			actualObj, err = objMgr.UpdateMXRecord(ref, dnsView, updatedFqdn, updatedMx, updatedTtl, true, updatedComment, updatedPreference, updatedEAs)
+			actualObj, err = objMgr.UpdateMXRecord(ref, dnsView, updatedFqdn, updatedMx, updatedPreference, updatedTtl, true, updatedComment, updatedEAs)
 		})
 		It("should return expected MX record obj", func() {
 			Expect(err).To(BeNil())
