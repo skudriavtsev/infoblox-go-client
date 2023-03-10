@@ -191,3 +191,11 @@ func ValidateSrvRecName(name string) error {
 
 	return nil
 }
+
+func CheckIntRange(name string, value int, min int, max int) error {
+	if value < min || value > max {
+		return fmt.Errorf("'%s' must be integer and must be in the range from 0 to 65535 inclusively", name)
+	}
+
+	return nil
+}

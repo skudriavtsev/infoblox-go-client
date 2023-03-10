@@ -11,33 +11,38 @@ func validateSrvRecArgs(
 	port uint32,
 	target string) error {
 
+	if name == "" {
+		return fmt.Errorf("'name' must not be empty")
+	}
 	if err := ValidateSrvRecName(name); err != nil {
 		return err
 	}
 
-	if name == "" {
-		return fmt.Errorf("'name' must not be empty")
+	if err := CheckIntRange("priority", int(priority), 0, 65535); err != nil {
+		return err
 	}
 
-	if priority < 0 || priority > 65535 {
-		return fmt.Errorf("'priority' value must be in range(0-65535)")
+	if err := CheckIntRange("port", int(port), 0, 65535); err != nil {
+		return err
 	}
 
-	if port > 65535 {
-		return fmt.Errorf("'port' value should between 0 to 65535")
-	}
-
-	if weight < 0 || weight > 65535 {
-		return fmt.Errorf("'weight' value should in range(0-65535)")
+	if err := CheckIntRange("weight", int(weight), 0, 65535); err != nil {
+		return err
 	}
 
 	if target == "" {
-		return fmt.Errorf("'target' must not be empty")
+		return fmt.Errorf("'target' value must not be empty")
+	}
+	if err := ValidateDomainName(target); err != nil {
+		return fmt.Errorf("validation of 'target' value failed: %s", err)
 	}
 
 	return nil
 }
 
+// CreateSRVRecord creates an SRV-record.
+//
+// Also, it preforms validation of input parameters: name, priority, weight, port and target.
 func (objMgr *ObjectManager) CreateSRVRecord(
 	dnsView string,
 	name string,
@@ -126,6 +131,9 @@ func (objMgr *ObjectManager) GetSRVRecordByRef(ref string) (*RecordSRV, error) {
 	return recordSRV, err
 }
 
+// UpdateSRVRecord updates the SRV-record.
+//
+// Also, it preforms validation of input parameters: name, priority, weight, port and target.
 func (objMgr *ObjectManager) UpdateSRVRecord(
 	ref string,
 	name string,
