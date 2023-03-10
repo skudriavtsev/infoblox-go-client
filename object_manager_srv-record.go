@@ -93,7 +93,7 @@ func (objMgr *ObjectManager) CreateSRVRecord(
 
 }
 
-func (objMgr *ObjectManager) GetSRVRecord(dnsView string, name string, priority uint32, weight uint32) (*RecordSRV, error) {
+func (objMgr *ObjectManager) GetSRVRecord(dnsView string, name string, target string, port uint32) (*RecordSRV, error) {
 	if dnsView == "" || name == "" {
 		return nil, fmt.Errorf("'DNS view' and 'name' are required to retrieve a unique srv record")
 	}
@@ -102,10 +102,10 @@ func (objMgr *ObjectManager) GetSRVRecord(dnsView string, name string, priority 
 	recordSRV := NewEmptyRecordSRV()
 
 	sf := map[string]string{
-		"view":     dnsView,
-		"name":     name,
-		"priority": fmt.Sprintf("%d", priority),
-		"weight":   fmt.Sprintf("%d", weight),
+		"view":   dnsView,
+		"name":   name,
+		"target": fmt.Sprintf("%s", target),
+		"port":   fmt.Sprintf("%d", port),
 	}
 	queryParams := NewQueryParams(false, sf)
 	err := objMgr.connector.GetObject(recordSRV, "", queryParams, &res)

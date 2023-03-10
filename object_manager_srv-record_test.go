@@ -164,10 +164,10 @@ var _ = Describe("Object Manager: SRV-Record", func() {
 		fakeRefReturn := fmt.Sprintf("record:srv/ZG5zLmhvc3RjkugC4xLg:%s/%s", name, dnsView)
 
 		sf := map[string]string{
-			"view":     dnsView,
-			"name":     name,
-			"priority": fmt.Sprintf("%d", priority),
-			"weight":   fmt.Sprintf("%d", weight),
+			"view":   dnsView,
+			"name":   name,
+			"target": fmt.Sprintf("%s", target),
+			"port":   fmt.Sprintf("%d", port),
 		}
 		queryParams := NewQueryParams(false, sf)
 
@@ -195,7 +195,7 @@ var _ = Describe("Object Manager: SRV-Record", func() {
 		var actualRecord *RecordSRV
 		var err error
 		It("should pass expected dnsview, name to GetObject", func() {
-			actualRecord, err = objMgr.GetSRVRecord(dnsView, name, priority, weight)
+			actualRecord, err = objMgr.GetSRVRecord(dnsView, name, target, port)
 		})
 		It("should return expected SRV record Object", func() {
 			Expect(err).To(BeNil())
