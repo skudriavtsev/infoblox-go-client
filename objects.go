@@ -797,16 +797,16 @@ func NewHostRecord(
 }
 
 type RecordMX struct {
-	IBBase   `json:"-"`
-	Ref      string `json:"_ref,omitempty"`
-	View     string `json:"view,omitempty"`
-	Fqdn     string `json:"name,omitempty"`
-	MX       string `json:"mail_exchanger,omitempty"`
-	Priority uint32 `json:"preference"`
-	Ttl      uint32 `json:"ttl"`
-	UseTtl   bool   `json:"use_ttl"`
-	Comment  string `json:"comment"`
-	Ea       EA     `json:"extattrs"`
+	IBBase     `json:"-"`
+	Ref        string `json:"_ref,omitempty"`
+	View       string `json:"view,omitempty"`
+	Fqdn       string `json:"name,omitempty"`
+	MX         string `json:"mail_exchanger,omitempty"`
+	Preference uint32 `json:"preference"`
+	Ttl        uint32 `json:"ttl"`
+	UseTtl     bool   `json:"use_ttl"`
+	Comment    string `json:"comment"`
+	Ea         EA     `json:"extattrs"`
 }
 
 func NewEmptyRecordMX() *RecordMX {

@@ -16,7 +16,7 @@ var _ = Describe("Object Manager: MX-record", func() {
 		fqdn := "test.example.com"
 		vmID := "93f9249abc039284"
 		vmName := "dummyvm"
-		priority := uint32(10)
+		preference := uint32(10)
 		ttl := uint32(70)
 		useTtl := true
 		comment := "test comment"
@@ -29,32 +29,32 @@ var _ = Describe("Object Manager: MX-record", func() {
 
 		aniFakeConnector := &fakeConnector{
 			createObjectObj: NewRecordMX(RecordMX{
-				View:     dnsView,
-				Fqdn:     fqdn,
-				MX:       mx,
-				Priority: priority,
-				Ttl:      ttl,
-				UseTtl:   useTtl,
-				Comment:  comment,
-				Ea:       eas,
+				View:       dnsView,
+				Fqdn:       fqdn,
+				MX:         mx,
+				Preference: preference,
+				Ttl:        ttl,
+				UseTtl:     useTtl,
+				Comment:    comment,
+				Ea:         eas,
 			}),
 			getObjectRef: fakeRefReturn,
 			getObjectObj: NewRecordMX(RecordMX{
-				Fqdn:     fqdn,
-				MX:       mx,
-				Priority: priority,
-				Ref:      fakeRefReturn,
+				Fqdn:       fqdn,
+				MX:         mx,
+				Preference: preference,
+				Ref:        fakeRefReturn,
 			}),
 			resultObject: NewRecordMX(RecordMX{
-				View:     dnsView,
-				Fqdn:     fqdn,
-				MX:       mx,
-				Priority: priority,
-				Ttl:      ttl,
-				UseTtl:   useTtl,
-				Ref:      fakeRefReturn,
-				Comment:  comment,
-				Ea:       eas,
+				View:       dnsView,
+				Fqdn:       fqdn,
+				MX:         mx,
+				Preference: preference,
+				Ttl:        ttl,
+				UseTtl:     useTtl,
+				Ref:        fakeRefReturn,
+				Comment:    comment,
+				Ea:         eas,
 			}),
 			fakeRefReturn: fakeRefReturn,
 		}
@@ -64,7 +64,7 @@ var _ = Describe("Object Manager: MX-record", func() {
 		var actualRecord *RecordMX
 		var err error
 		It("should pass expected MX record Object to CreateObject", func() {
-			actualRecord, err = objMgr.CreateMXRecord(dnsView, fqdn, mx, priority, ttl, useTtl, comment, eas)
+			actualRecord, err = objMgr.CreateMXRecord(dnsView, fqdn, mx, preference, ttl, useTtl, comment, eas)
 		})
 		It("should return expected MX record Object", func() {
 			Expect(actualRecord).To(Equal(aniFakeConnector.resultObject))
@@ -92,46 +92,46 @@ var _ = Describe("Object Manager: MX-record", func() {
 		initialEas := EA{"Country": "old value"}
 
 		initObj := NewRecordMX(RecordMX{
-			Ref:      ref,
-			View:     dnsView,
-			Fqdn:     fqdn,
-			MX:       initMx,
-			Priority: uint32(10),
-			Ttl:      uint32(70),
-			UseTtl:   true,
-			Comment:  initComment,
-			Ea:       initialEas,
+			Ref:        ref,
+			View:       dnsView,
+			Fqdn:       fqdn,
+			MX:         initMx,
+			Preference: uint32(10),
+			Ttl:        uint32(70),
+			UseTtl:     true,
+			Comment:    initComment,
+			Ea:         initialEas,
 		})
 
 		updatedEAs := EA{"Country": "new value"}
-		updateFqdn := "new.example.com"
-		updateMx := "mx.new.example.com"
-		updateComment := "new comment"
-		updateTtl := uint32(100)
-		updatePriority := uint32(15)
+		updatedFqdn := "new.example.com"
+		updatedMx := "mx.new.example.com"
+		updatedComment := "new comment"
+		updatedTtl := uint32(100)
+		updatedPreference := uint32(15)
 		updatedRef := fmt.Sprintf("record:mx/ZG5zLmhvc3RjkuMC4xLg:%s/%s", fqdn, dnsView)
 		updateObjIn := NewRecordMX(RecordMX{
-			Ref:      ref,
-			View:     dnsView,
-			Fqdn:     updateFqdn,
-			MX:       updateMx,
-			Priority: updatePriority,
-			Ttl:      updateTtl,
-			UseTtl:   true,
-			Comment:  updateComment,
-			Ea:       updatedEAs,
+			Ref:        ref,
+			View:       dnsView,
+			Fqdn:       updatedFqdn,
+			MX:         updatedMx,
+			Preference: updatedPreference,
+			Ttl:        updatedTtl,
+			UseTtl:     true,
+			Comment:    updatedComment,
+			Ea:         updatedEAs,
 		})
 
 		expectedObj := NewRecordMX(RecordMX{
-			Ref:      ref,
-			View:     dnsView,
-			Fqdn:     updateFqdn,
-			MX:       updateMx,
-			Priority: updatePriority,
-			Ttl:      updateTtl,
-			UseTtl:   true,
-			Comment:  updateComment,
-			Ea:       updatedEAs,
+			Ref:        ref,
+			View:       dnsView,
+			Fqdn:       updatedFqdn,
+			MX:         updatedMx,
+			Preference: updatedPreference,
+			Ttl:        updatedTtl,
+			UseTtl:     true,
+			Comment:    updatedComment,
+			Ea:         updatedEAs,
 		})
 
 		conn = &fakeConnector{
@@ -149,7 +149,7 @@ var _ = Describe("Object Manager: MX-record", func() {
 		}
 		objMgr = NewObjectManager(conn, cmpType, tenantID)
 		It("should pass updated MX record arguments", func() {
-			actualObj, err = objMgr.UpdateMXRecord(ref, dnsView, updateFqdn, updateMx, updateTtl, true, updateComment, updatePriority, updatedEAs)
+			actualObj, err = objMgr.UpdateMXRecord(ref, dnsView, updatedFqdn, updatedMx, updatedTtl, true, updatedComment, updatedPreference, updatedEAs)
 		})
 		It("should return expected MX record obj", func() {
 			Expect(err).To(BeNil())
@@ -165,7 +165,7 @@ var _ = Describe("Object Manager: MX-record", func() {
 
 		fqdn := "test.example.com"
 		mx := "example.com"
-		priority := uint32(25)
+		preference := uint32(25)
 		ttl := uint32(70)
 		comment := "test comment"
 
@@ -184,15 +184,15 @@ var _ = Describe("Object Manager: MX-record", func() {
 			getObjectObj:         NewEmptyRecordMX(),
 			getObjectQueryParams: NewQueryParams(false, sf),
 			resultObject: []RecordMX{*NewRecordMX(RecordMX{
-				View:     dnsView,
-				Fqdn:     fqdn,
-				MX:       mx,
-				Priority: priority,
-				Ttl:      ttl,
-				UseTtl:   true,
-				Comment:  comment,
-				Ea:       eas,
-				Ref:      fakeRefReturn,
+				View:       dnsView,
+				Fqdn:       fqdn,
+				MX:         mx,
+				Preference: preference,
+				Ttl:        ttl,
+				UseTtl:     true,
+				Comment:    comment,
+				Ea:         eas,
+				Ref:        fakeRefReturn,
 			})},
 			fakeRefReturn: fakeRefReturn,
 		}
@@ -227,15 +227,15 @@ var _ = Describe("Object Manager: MX-record", func() {
 			getObjectObj:         NewEmptyRecordMX(),
 			getObjectQueryParams: NewQueryParams(false, nil),
 			resultObject: NewRecordMX(RecordMX{
-				View:     dnsView,
-				Fqdn:     fqdn,
-				MX:       "example.com",
-				Priority: uint32(25),
-				Ttl:      uint32(70),
-				UseTtl:   true,
-				Comment:  "test comment",
-				Ea:       eas,
-				Ref:      readObjRef,
+				View:       dnsView,
+				Fqdn:       fqdn,
+				MX:         "example.com",
+				Preference: uint32(25),
+				Ttl:        uint32(70),
+				UseTtl:     true,
+				Comment:    "test comment",
+				Ea:         eas,
+				Ref:        readObjRef,
 			}),
 			fakeRefReturn: readObjRef,
 		}

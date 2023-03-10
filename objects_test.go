@@ -615,21 +615,21 @@ var _ = Describe("Objects", func() {
 			eas := EA{"Country": "test"}
 
 			rm := NewRecordMX(RecordMX{
-				Fqdn:     fqdn,
-				MX:       mx,
-				View:     dnsView,
-				Priority: priority,
-				Ttl:      ttl,
-				UseTtl:   useTtl,
-				Comment:  comment,
-				Ea:       eas,
+				Fqdn:       fqdn,
+				MX:         mx,
+				View:       dnsView,
+				Preference: priority,
+				Ttl:        ttl,
+				UseTtl:     useTtl,
+				Comment:    comment,
+				Ea:         eas,
 			})
 
 			It("should set fields correctly", func() {
 				Expect(rm.Fqdn).To(Equal(fqdn))
 				Expect(rm.MX).To(Equal(mx))
 				Expect(rm.View).To(Equal(dnsView))
-				Expect(rm.Priority).To(Equal(priority))
+				Expect(rm.Preference).To(Equal(priority))
 				Expect(rm.Ttl).To(Equal(ttl))
 				Expect(rm.UseTtl).To(Equal(useTtl))
 				Expect(rm.Comment).To(Equal(comment))

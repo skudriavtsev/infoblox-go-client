@@ -6,7 +6,7 @@ func (objMgr *ObjectManager) CreateMXRecord(
 	dnsView string,
 	fqdn string,
 	mx string,
-	priority uint32,
+	preference uint32,
 	ttl uint32,
 	useTtl bool,
 	comment string,
@@ -20,19 +20,19 @@ func (objMgr *ObjectManager) CreateMXRecord(
 		return nil, fmt.Errorf("'fqdn' and 'mail_exchanger' fields must not be empty")
 	}
 
-	if priority < 0 || priority > 65535 {
+	if preference < 0 || preference > 65535 {
 		return nil, fmt.Errorf("'preference' is not in range 0 to 65535")
 	}
 
 	recordMx := NewRecordMX(RecordMX{
-		View:     dnsView,
-		Fqdn:     fqdn,
-		MX:       mx,
-		Priority: priority,
-		Ttl:      ttl,
-		UseTtl:   useTtl,
-		Comment:  comment,
-		Ea:       eas,
+		View:       dnsView,
+		Fqdn:       fqdn,
+		MX:         mx,
+		Preference: preference,
+		Ttl:        ttl,
+		UseTtl:     useTtl,
+		Comment:    comment,
+		Ea:         eas,
 	})
 
 	ref, err := objMgr.connector.CreateObject(recordMx)
@@ -87,7 +87,7 @@ func (objMgr *ObjectManager) UpdateMXRecord(
 	ttl uint32,
 	useTtl bool,
 	comment string,
-	priority uint32,
+	preference uint32,
 	eas EA) (*RecordMX, error) {
 
 	res, err := objMgr.GetMXRecordByRef(ref)
@@ -100,7 +100,7 @@ func (objMgr *ObjectManager) UpdateMXRecord(
 		return nil, fmt.Errorf("changing 'dns_view' field after object creation is not allowed")
 	}
 
-	if priority < 0 || priority > 65535 {
+	if preference < 0 || preference > 65535 {
 		return nil, fmt.Errorf("'preference' is not in range 0 to 65535")
 	}
 
@@ -108,14 +108,14 @@ func (objMgr *ObjectManager) UpdateMXRecord(
 		return nil, fmt.Errorf("'mail_exchanger' field must not be empty")
 	}
 	recordMx := NewRecordMX(RecordMX{
-		View:     dnsView,
-		Fqdn:     fqdn,
-		MX:       mx,
-		Priority: priority,
-		Ttl:      ttl,
-		UseTtl:   useTtl,
-		Comment:  comment,
-		Ea:       eas,
+		View:       dnsView,
+		Fqdn:       fqdn,
+		MX:         mx,
+		Preference: preference,
+		Ttl:        ttl,
+		UseTtl:     useTtl,
+		Comment:    comment,
+		Ea:         eas,
 	})
 
 	recordMx.Ref = ref
